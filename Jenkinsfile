@@ -38,7 +38,7 @@ pipeline {
                      cp ./docker-compose.yml   /docker/payment-external
                      cp ./docker-compose.prd.yml /docker/payment-external
 
-                    docker service update --image externalpaymentgateway:${BRANCH_NAME} external.paymentgateway
+                    docker service update --image externalpaymentgateway:${BRANCH_NAME} external_payment_external_paymentgateway
                
                 '''
 

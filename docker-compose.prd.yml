@@ -1,7 +1,7 @@
 version: '3.4'
 
 services:
-  external.paymentgateway:
+  external_paymentgateway:
     image: externalpaymentgateway:${BRANCH_NAME}
     environment:
       - ASPNETCORE_ENVIRONMENT=Production

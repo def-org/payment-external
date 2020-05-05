@@ -29,7 +29,7 @@ namespace External.PaymentGateway.Controllers
         }
 
         [HttpGet("info")]
-        public string GetInfo() => DateTime.Now.ToString();
+        public string GetInfo() => $"{DateTime.Now.ToString()} - {System.Environment.OSVersion} - {System.Environment.MachineName}" ;
 
 
         [HttpGet("{id:guid}")]
