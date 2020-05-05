@@ -40,6 +40,8 @@ namespace External.PaymentGateway
 
             services.AddTransient<ProcessService>();
 
+            services.AddSingleton<IWebHookCallbackService, WebHookCallbackService>();
+
             services.AddControllers();
         }
 
