@@ -16,7 +16,7 @@ pipeline {
                 echo sh(script: 'env|sort', returnStdout: true)
 
                 sh  '''
-                    docker-compose build
+                    docker-compose -f ./docker-compose.yml -f ./docker-compose.prd.yml build
                
                 '''
 
