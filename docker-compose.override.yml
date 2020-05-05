@@ -2,6 +2,7 @@ version: '3.4'
 
 services:
   external.paymentgateway:
+    image: ${DOCKER_REGISTRY-}externalpaymentgateway
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:

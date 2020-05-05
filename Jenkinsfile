@@ -13,8 +13,9 @@ pipeline {
 
             steps {
                 
-                sh  '''
+                echo sh(script: 'env|sort', returnStdout: true)
 
+                sh  '''
                     docker-compose build
                
                 '''
