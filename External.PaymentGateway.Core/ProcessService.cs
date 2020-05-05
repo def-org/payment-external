@@ -15,18 +15,21 @@ namespace External.PaymentGateway
 
         private readonly IPersistenceRepository<PaymentOrder> paymentPersistence;
         private readonly IPersistenceRepository<Account> accountPersistence;
+        private readonly IWebHookCallbackService webHookCallbackService;
         private readonly IConsumer<PaymentOrder> consumer;
 
         public ProcessService(
             IQueryRepository<Account> accountQueryRepository,
             IPersistenceRepository<PaymentOrder> paymentPersistence,
             IPersistenceRepository<Account> accountPersistence,
+            IWebHookCallbackService webHookCallbackService,
             IConsumer<PaymentOrder> consumer
             )
         {
             this.accountQueryRepository = accountQueryRepository;
             this.paymentPersistence = paymentPersistence;
             this.accountPersistence = accountPersistence;
+            this.webHookCallbackService = webHookCallbackService;
             this.consumer = consumer;
         }
 
@@ -45,26 +48,42 @@ namespace External.PaymentGateway
                 throw new InvalidOperationException("Account Not found");
             }
 
-            if (payment.CVC == 12)
+            bool executed = false;
+
+            string message = "";
+
+            //BLoqueio Valor 10 não é permitido.
+            //Motivo (Exemplificar uma negação)
+            if (payment.Amount != 10)
             {
-                throw new Exception();
+                account.Balance += payment.Amount;
+
+                payment.Processed = true;
+
+                this.paymentPersistence.Update(payment);
+
+                this.accountPersistence.Update(account);
+
+                executed = true;
+
+                message = "Processed";
+
+            }
+            else
+            {
+                executed = false;
+                message = "Amount = 10 (can't be processed)";
             }
 
-            account.Balance += payment.Amount;
-            payment.Processed = true;
 
-            this.paymentPersistence.Update(payment);
-
-            this.accountPersistence.Update(account);
 
             if (!string.IsNullOrWhiteSpace(payment.WebHookEndpoint))
             {
-                //TODO: Abstrair
-                HttpClient client = new HttpClient();
-
-                StringContent stringContent = new StringContent(payment.CorrelationId);
-
-                client.PostAsync($"{payment.WebHookEndpoint}", stringContent).GetAwaiter().GetResult();
+                webHookCallbackService.Trigger(payment.WebHookEndpoint, new { 
+                    CorrelationId = payment.CorrelationId ,
+                    Executed = executed,
+                    Message = message
+                });
             }
         }
     }

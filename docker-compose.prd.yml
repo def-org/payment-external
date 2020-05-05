@@ -2,12 +2,18 @@ version: '3.4'
 
 services:
   external.paymentgateway:
+    image: externalpaymentgateway:${BRANCH_NAME}
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
     ports:
-      - "80:80"
+      - "80"
+
+  message_broker:
+    ports:
+      - "15672"
+
 
   mongo:
     ports:
-      - "27017:27017"
+      - "27017"
     

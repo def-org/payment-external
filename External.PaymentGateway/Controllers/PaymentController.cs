@@ -43,7 +43,6 @@ namespace External.PaymentGateway.Controllers
         [HttpPost()]
         public IActionResult Process([FromBody]PaymentOrder paymentOrder)
         {
-            
             this.paymentService.ProcessPayment(paymentOrder);
 
             return this.Ok();
