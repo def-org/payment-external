@@ -1,8 +1,7 @@
 version: '3.4'
 
 services:
-  external.paymentgateway:
-    image: ${DOCKER_REGISTRY-}externalpaymentgateway
+  external.paymentgateway:    
     build:
       context: .
       dockerfile: External.PaymentGateway/Dockerfile
