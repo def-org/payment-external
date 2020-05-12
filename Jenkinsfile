@@ -42,19 +42,6 @@ pipeline {
                
                 '''
 
-
-
-                sh  '''
-
-                     /docker/payment-external #
-
-
-                    
-
-                    docker-compose -f ./docker-compose.yml -f ./docker-compose.prd.yml build
-               
-                '''
-
             }
 
         }
