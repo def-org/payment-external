@@ -35,10 +35,12 @@ pipeline {
                 
                 sh  '''
 
-                     cp ./docker-compose.yml   /docker/payment-external
-                     cp ./docker-compose.prd.yml /docker/payment-external
+                    cp ./docker-compose.yml   /docker/payment-external
+                    cp ./docker-compose.prd.yml /docker/payment-external
 
-                    docker service update --image externalpaymentgateway:${BRANCH_NAME} external_payment_external_paymentgateway
+                    docker push proget.luizcarlosfaria.com/docker-private-registry/externalpaymentgateway:${BRANCH_NAME}
+
+                    docker service update --image proget.luizcarlosfaria.com/docker-private-registry/externalpaymentgateway:${BRANCH_NAME} external_payment_external_paymentgateway
                
                 '''
 
