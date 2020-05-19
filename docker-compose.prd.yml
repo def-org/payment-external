@@ -6,8 +6,8 @@ services:
     - message_broker
     - mongo
     environment:
-      ASPNETCORE_ENVIRONMENT: Production
-    image: 'externalpaymentgateway:${BRANCH_NAME:-master}'
+      ASPNETCORE_ENVIRONMENT: Production       
+    image: 'proget.luizcarlosfaria.com/docker-private-registry/externalpaymentgateway:${BRANCH_NAME:-master}'
     networks:
       external_payment_net: {}
     ports:
