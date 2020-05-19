@@ -7,7 +7,7 @@ services:
     - mongo
     environment:
       ASPNETCORE_ENVIRONMENT: Production
-    image: 'externalpaymentgateway:master'
+    image: 'externalpaymentgateway:${BRANCH_NAME}-master'
     networks:
       external_payment_net: {}
     ports:
